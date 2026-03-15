@@ -77,7 +77,7 @@ export const DefaultAppLayout: React.FC = () => {
             addItem={uiState.historyManager.addItem}
           />
         ) : (
-          <Composer isFocused={true} />
+          process.env['GEMINI_ONESHOT'] !== '1' && <Composer isFocused={true} />
         )}
 
         <ExitWarning />
