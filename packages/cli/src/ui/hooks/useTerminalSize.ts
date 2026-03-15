@@ -8,14 +8,14 @@ import { useEffect, useState } from 'react';
 
 export function useTerminalSize(): { columns: number; rows: number } {
   const [size, setSize] = useState({
-    columns: process.stdout.columns || 60,
+    columns: process.stdout.columns || 100,
     rows: process.stdout.rows || 20,
   });
 
   useEffect(() => {
     function updateSize() {
       setSize({
-        columns: process.stdout.columns || 60,
+        columns: process.stdout.columns || 100,
         rows: process.stdout.rows || 20,
       });
     }

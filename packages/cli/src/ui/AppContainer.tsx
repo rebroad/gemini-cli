@@ -1511,7 +1511,8 @@ Logging in with Google... Restarting Gemini CLI to continue.
     getIde();
   }, []);
   const shouldShowIdePrompt = Boolean(
-    currentIDE &&
+    process.env['GEMINI_ONESHOT'] !== '1' &&
+      currentIDE &&
       !config.getIdeMode() &&
       !settings.merged.ide.hasSeenNudge &&
       !idePromptAnswered,
