@@ -50,10 +50,16 @@ export const AppHeader = ({ version, showDetails = true }: AppHeaderProps) => {
   const { showTips } = useTips();
 
   const showHeader = !(
-    settings.merged.ui.hideBanner || config.getScreenReader()
+    settings.merged.ui.hideBanner ||
+    config.getScreenReader() ||
+    process.env['GEMINI_ONESHOT'] === '1'
   );
 
   const ICON = isAppleTerminal() ? MAC_TERMINAL_ICON : DEFAULT_ICON;
+
+  if (process.env['GEMINI_ONESHOT'] === '1') {
+    return null;
+  }
 
   if (!showDetails) {
     return (

@@ -1470,6 +1470,34 @@ Logging in with Google... Restarting Gemini CLI to continue.
     geminiClient,
   ]);
 
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | undefined;
+    if (
+      process.env['GEMINI_ONESHOT'] === '1' &&
+      initialPromptSubmitted.current &&
+      streamingState === StreamingState.Idle &&
+      !isProcessing &&
+      pendingGeminiHistoryItems.length === 0 &&
+      pendingSlashCommandHistoryItems.length === 0 &&
+      messageQueue.length === 0
+    ) {
+      timeoutId = setTimeout(async () => {
+        await runExitCleanup();
+        process.exit(0);
+      }, 50);
+    }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [
+    streamingState,
+    isProcessing,
+    pendingGeminiHistoryItems.length,
+    pendingSlashCommandHistoryItems.length,
+    messageQueue.length,
+  ]);
+
   const [idePromptAnswered, setIdePromptAnswered] = useState(false);
   const [currentIDE, setCurrentIDE] = useState<IdeInfo | null>(null);
 

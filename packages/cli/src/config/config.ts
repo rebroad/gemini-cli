@@ -387,9 +387,11 @@ export async function parseArguments(
   // -p/--prompt forces non-interactive mode; positional args default to interactive in TTY
   if (q && !result['prompt']) {
     if (!isHeadlessMode()) {
-      startupMessages.push(
-        'Positional arguments now default to interactive mode. To run in non-interactive mode, use the --prompt (-p) flag.',
-      );
+      if (process.env['GEMINI_ONESHOT'] !== '1') {
+        startupMessages.push(
+          'Positional arguments now default to interactive mode. To run in non-interactive mode, use the --prompt (-p) flag.',
+        );
+      }
       result['promptInteractive'] = q;
     } else {
       result['prompt'] = q;
